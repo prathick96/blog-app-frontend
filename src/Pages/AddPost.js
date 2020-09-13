@@ -7,7 +7,6 @@ const AddPost = () => {
   const [title, setTitle] = useState({ text: "", isValid: "mediator" });
   const [content, setContent] = useState({ text: "", isValid: "mediator" });
   const [authorId, setauthorId] = useState("");
-  const [loading, setloading] = useState(false);
   const { authors } = useAuthor();
   const history = useHistory();
 
@@ -40,7 +39,6 @@ const AddPost = () => {
   const addPosts = (e) => {
     e.preventDefault();
     if (content.isValid === "valid" && title.isValid === "valid") {
-      setloading(true);
       const formData = new FormData();
       formData.append("title", title.text);
       formData.append("content", content.text);
@@ -52,22 +50,17 @@ const AddPost = () => {
       };
       const config = {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
         body: JSON.stringify(postDetail)
       };
       fetch("https://react-blog-rest-api.herokuapp.com/posts", config)
         .then((response) => response.json())
         .then((data) => {
           alert("Post has been added Successfully");
-          setloading(false);
           history.push(`/`);
         })
         .catch((error) => {
           console.log(error);
           alert("Error! Please check the data");
-          setloading(false);
         });
     } else {
       alert("Please enter valid data");
@@ -123,7 +116,7 @@ const AddPost = () => {
             invalid={content.isValid === "invalid" ? true : false}
           />
         </FormGroup>
-        <Button type="submit" onClick={addPosts} disabled={loading}>
+        <Button type="submit" onClick={addPosts}>
           Add Post
         </Button>
       </Form>
