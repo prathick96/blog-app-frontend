@@ -12,12 +12,12 @@ const AddPost = () => {
   const history = useHistory();
 
   const titleInput = (e) => {
-    let validation = "invalid";
+    let titleLen = "invalid";
     const text = e.target.value.trimLeft();
     if (text.length >= 10) {
-      validation = "valid";
+      titleLen = "valid";
     }
-    const data = { text, isValid: validation };
+    const data = { text, isValid: titleLen };
     setTitle(data);
   };
   useEffect(() => {
@@ -25,11 +25,11 @@ const AddPost = () => {
   }, [authors]);
 
   const contentInput = (e) => {
-    let validation = "invalid";
+    let contentLen = "invalid";
     if (e.target.value.length >= 200) {
-      validation = "valid";
+      contentLen = "valid";
     }
-    const data = { text: e.target.value, isValid: validation };
+    const data = { text: e.target.value, isValid: contentLen };
     setContent(data);
   };
 
