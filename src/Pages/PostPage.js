@@ -21,8 +21,10 @@ const PostPage = () => {
   return (
     <>
       <div className="container">
+        <br />
         <Button onClick={goBack}>Back</Button>
       </div>
+      <br />
       <Post
         id={post._id}
         title={post.title}

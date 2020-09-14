@@ -4,7 +4,7 @@ import { trackPromise } from "react-promise-tracker";
 import Post from "./Post";
 
 const Author = () => {
-  const [author, setAuthor] = useState({});
+  const [postsByAuthor, setPostsbyAuthorId] = useState([]);
 
   const { params } = useRouteMatch();
 
@@ -14,18 +14,18 @@ const Author = () => {
         `https://react-blog-rest-api.herokuapp.com/posts/author/${params.authorId}`
       )
         .then((res) => res.json())
-        .then((data) => setAuthor(data.post))
+        .then((data) => setPostsbyAuthorId(data.posts))
     );
   }, [params]);
 
   return (
     <div>
-      {author.map((element, index) => {
+      {postsByAuthor.map((element, index) => {
         return (
           <Post
             key={index}
             id={element._id}
-            author={element.author?.name}
+            author={element.author.name}
             title={element.title}
             content={element.content}
             isSummary
