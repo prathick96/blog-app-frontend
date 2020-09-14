@@ -1,15 +1,17 @@
 import { useState, useEffect } from "react";
+import { trackPromise } from "react-promise-tracker";
 
 const useAuthors = () => {
   const [authors, setAuthors] = useState([]);
 
   useEffect(() => {
-    fetch("https://react-blog-rest-api.herokuapp.com/authors")
-      .then((res) => res.json())
-      .then((data) => {
-        setAuthors(data.authors);
-      })
-      .catch((e) => console.log(e));
+    trackPromise(
+      fetch("https://react-blog-rest-api.herokuapp.com/authors")
+        .then((res) => res.json())
+        .then((data) => {
+          setAuthors(data.authors);
+        })
+    );
   }, []);
 
   return { authors };

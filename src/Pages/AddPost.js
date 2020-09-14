@@ -2,21 +2,21 @@ import React, { useState, useEffect } from "react";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 import useAuthors from "../hooks/useAuthors";
 import { useHistory } from "react-router-dom";
+import { trackPromise } from "react-promise-tracker";
 
 const AddPost = () => {
-  const [title, setTitle] = useState({ text: "", isValid: "mediator" });
-  const [content, setContent] = useState({ text: "", isValid: "mediator" });
+  const [title, setTitle] = useState({ text: "", isValid: "validator" });
+  const [content, setContent] = useState({ text: "", isValid: "validator" });
   const [authorId, setauthorId] = useState("");
   const { authors } = useAuthors();
   const history = useHistory();
 
   const titleInput = (e) => {
-    let validation = "invalid";
-    const text = e.target.value.trimLeft();
-    if (text.length >= 10) {
-      validation = "valid";
+    let validator = "invalid";
+    if (e.target.value.length >= 10) {
+      validator = "valid";
     }
-    const data = { text, isValid: validation };
+    const data = { text: e.target.value, isValid: validator };
     setTitle(data);
   };
 
@@ -25,11 +25,11 @@ const AddPost = () => {
   }, [authors]);
 
   const contentInput = (e) => {
-    let validation = "invalid";
+    let validator = "invalid";
     if (e.target.value.length >= 200) {
-      validation = "valid";
+      validator = "valid";
     }
-    const data = { text: e.target.value, isValid: validation };
+    const data = { text: e.target.value, isValid: validator };
     setContent(data);
   };
 
@@ -56,17 +56,18 @@ const AddPost = () => {
         },
         body: JSON.stringify(postDetail)
       };
-      fetch("https://react-blog-rest-api.herokuapp.com/posts", config)
-        .then((response) => response.json())
-        .then((data) => {
-          alert("Post has been added Successfully");
-
-          history.push(`/`);
-        })
-        .catch((error) => {
-          console.log(error);
-          alert("Error! Please check the data");
-        });
+      trackPromise(
+        fetch(`https://react-blog-rest-api.herokuapp.com/posts`, config)
+          .then((response) => response.json())
+          .then((data) => {
+            alert("Post has been added Successfully");
+            trackPromise(history.push("/"));
+          })
+          .catch((error) => {
+            console.log(error);
+            alert("Error! Please check the data");
+          })
+      );
     } else {
       alert("Please enter valid data");
     }
@@ -81,12 +82,12 @@ const AddPost = () => {
             type="text"
             name="title"
             id="title"
-            placeholder="Title of the post.."
+            placeholder="Enter the Title"
             value={title.text}
             onChange={titleInput}
-            required
             valid={title.isValid === "valid" ? true : false}
             invalid={title.isValid === "invalid" ? true : false}
+            required
           />
           <FormGroup>
             <Label for="authors">Author:</Label>
@@ -95,6 +96,7 @@ const AddPost = () => {
               name="authors"
               id="authors"
               onChange={authorInput}
+              required
             >
               {authors.map((element, index) => {
                 return (
@@ -115,10 +117,10 @@ const AddPost = () => {
             rows="10"
             value={content.text}
             onChange={contentInput}
-            placeholder="Content of the post.."
-            required
+            placeholder="Write the content here(not less than 200 characters).."
             valid={content.isValid === "valid" ? true : false}
             invalid={content.isValid === "invalid" ? true : false}
+            required
           />
         </FormGroup>
         <Button type="submit" onClick={addPosts}>

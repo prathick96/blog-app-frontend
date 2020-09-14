@@ -6,6 +6,7 @@ import Author from "../Components/Author";
 
 const Authors = () => {
   const { authors } = useAuthors();
+
   let { path, url } = useRouteMatch();
   return (
     <div className="container">
