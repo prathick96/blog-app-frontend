@@ -61,7 +61,7 @@ const AddPost = () => {
           .then((response) => response.json())
           .then((data) => {
             alert("Post has been added Successfully");
-            trackPromise(history.push("/"));
+            history.push("/");
           })
           .catch((error) => {
             console.log(error);
