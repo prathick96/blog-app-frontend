@@ -18,7 +18,7 @@ const Post = (props) => {
             ? `${props.content?.substring(0, 100)}...`
             : props.content}
         </p>
-        {props.isSummary ? <Button onClick={openPost}>Read More</Button> : null}
+        {props.isSummary ? <Button onClick={openPost} >Read More</Button> : null}
       </div>
       <br />
     </>

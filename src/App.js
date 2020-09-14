@@ -7,7 +7,7 @@ import Authors from "./Pages/Authors";
 import PostPage from "./Pages/PostPage";
 import AddPost from "./Pages/AddPost";
 import ErrorBoundry from "./Components/ErrorBoundry";
-
+import "./styles.css";
 // const CountReducer = (state, action) => {
 //   switch (action) {
 //     case "increment":
