@@ -1,34 +1,35 @@
 import React, { useState, useEffect } from "react";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
-import useAuthor from "../hooks/useAuthors";
+import useAuthors from "../hooks/useAuthors";
 import { useHistory } from "react-router-dom";
 
 const AddPost = () => {
   const [title, setTitle] = useState({ text: "", isValid: "mediator" });
   const [content, setContent] = useState({ text: "", isValid: "mediator" });
   const [authorId, setauthorId] = useState("");
-  const { authors } = useAuthor();
+  const { authors } = useAuthors();
   const history = useHistory();
 
   const titleInput = (e) => {
-    let titleLen = "invalid";
+    let validation = "invalid";
     const text = e.target.value.trimLeft();
     if (text.length >= 10) {
-      titleLen = "valid";
+      validation = "valid";
     }
-    const data = { text, isValid: titleLen };
+    const data = { text, isValid: validation };
     setTitle(data);
   };
+
   useEffect(() => {
     setauthorId(authors[0]?._id);
   }, [authors]);
 
   const contentInput = (e) => {
-    let contentLen = "invalid";
+    let validation = "invalid";
     if (e.target.value.length >= 200) {
-      contentLen = "valid";
+      validation = "valid";
     }
-    const data = { text: e.target.value, isValid: contentLen };
+    const data = { text: e.target.value, isValid: validation };
     setContent(data);
   };
 
@@ -50,12 +51,16 @@ const AddPost = () => {
       };
       const config = {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
         body: JSON.stringify(postDetail)
       };
       fetch("https://react-blog-rest-api.herokuapp.com/posts", config)
         .then((response) => response.json())
         .then((data) => {
           alert("Post has been added Successfully");
+
           history.push(`/`);
         })
         .catch((error) => {
@@ -71,7 +76,7 @@ const AddPost = () => {
     <div className="container">
       <Form>
         <FormGroup>
-          <Label for="title">Title</Label>
+          <Label for="title">Title:</Label>
           <Input
             type="text"
             name="title"
@@ -84,7 +89,7 @@ const AddPost = () => {
             invalid={title.isValid === "invalid" ? true : false}
           />
           <FormGroup>
-            <Label for="authors">Select</Label>
+            <Label for="authors">Author:</Label>
             <Input
               type="select"
               name="authors"
@@ -102,7 +107,7 @@ const AddPost = () => {
           </FormGroup>
         </FormGroup>
         <FormGroup>
-          <Label for="content">Content </Label>
+          <Label for="content">Content: </Label>
           <Input
             type="textarea"
             name="content"

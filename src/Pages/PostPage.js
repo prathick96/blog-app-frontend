@@ -17,7 +17,9 @@ const PostPage = () => {
 
   return (
     <>
-      <Button onClick={goBack}>Back</Button>
+      <div className="container">
+        <Button onClick={goBack}>Back</Button>
+      </div>
       <Post
         id={post._id}
         title={post.title}
