@@ -4,7 +4,10 @@ import Loader from "react-loader-spinner";
 import "./spinner.css";
 
 const Spinner = (props) => {
-  const { promiseInProgress } = usePromiseTracker();
+  const { promiseInProgress } = usePromiseTracker({
+    area: props.area,
+    delay: 0
+  });
 
   return (
     promiseInProgress && (
