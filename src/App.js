@@ -8,6 +8,7 @@ import PostPage from "./Pages/PostPage";
 import AddPost from "./Pages/AddPost";
 import ErrorBoundry from "./Components/ErrorBoundry";
 import "./styles.css";
+import AddAuthor from "./Pages/AddAuthor";
 // const CountReducer = (state, action) => {
 //   switch (action) {
 //     case "increment":
@@ -47,9 +48,16 @@ export default function App() {
             <Authors />
           </ErrorBoundry>
         </Route>
+
         <Route exact path="/add-post">
           <ErrorBoundry>
             <AddPost />
+          </ErrorBoundry>
+        </Route>
+
+        <Route exact path="/add-author">
+          <ErrorBoundry>
+            <AddAuthor />
           </ErrorBoundry>
         </Route>
       </Switch>
