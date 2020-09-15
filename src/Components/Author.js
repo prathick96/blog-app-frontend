@@ -21,6 +21,15 @@ const Author = () => {
   return (
     <div>
       {postsByAuthor.map((element, index) => {
+        console.log(element);
+        if (!element.title) {
+          console.log("no post");
+          return (
+            <div className="container">
+              <p>No Posts yet!</p>
+            </div>
+          );
+        }
         return (
           <Post
             key={index}
